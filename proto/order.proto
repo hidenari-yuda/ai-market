@@ -26,10 +26,10 @@ service OrderService {
   rpc GetById (OrderIdRequest) returns (Order) {}
 
   // get onsale list by user
-  rpc GetSoldListByUser (OrderIdRequest) returns (OrderList) {}
+  rpc GetSoldListByUser (OrderUserIdRequest) returns (OrderList) {}
 
   // get purchaed list by user
-  rpc GetPurchasedListByUser (OrderIdRequest) returns (OrderList) {}
+  rpc GetPurchasedListByUser (OrderUserIdRequest) returns (OrderList) {}
 
   // get list by id list
   rpc GetListByIdList (stream OrderIdListRequest) returns (OrderList) {}
@@ -71,6 +71,10 @@ message OrderIdRequest {
 
 message OrderIdListRequest {
   repeated int64 id = 1;
+}
+
+message OrderUserIdRequest {
+  int64 user_id = 1;
 }
 
 // response

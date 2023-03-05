@@ -25,7 +25,7 @@ service BillingService {
   rpc GetById (BillingIdRequest) returns (Billing) {}
 
   // get by user id
-  rpc GetByUserId (BillingIdRequest) returns (BillingList) {}
+  rpc GetByUserId (BillingUserIdRequest) returns (BillingList) {}
 
   // get by service
   // rpc GetListByService (BillingServiceRequest) returns (BillingList) {}
@@ -69,6 +69,10 @@ message BillingIdRequest {
 
 message BillingIdListRequest {
   repeated int64 id = 1;
+}
+
+message BillingUserIdRequest {
+  int64 user_id = 1;
 }
 
 // res

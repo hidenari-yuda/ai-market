@@ -33,7 +33,7 @@ service UserService {
   rpc GetById (UserIdRequest) returns (User) {}
 
   // get by user_type
-  rpc GetListByType (TypeRequest) returns (UserList) {}
+  rpc GetListByType (UserTypeRequest) returns (UserList) {}
 
   // get list by trend
   rpc GetTopList (UserTopRequest) returns (UserList) {}
@@ -112,7 +112,7 @@ message UserIdListRequest {
   repeated int64 id = 1;
 }
 
-message TypeRequest {
+message UserTypeRequest {
   Type type = 1;
   enum Type {
     NONE = 0;

@@ -26,10 +26,10 @@ service AspService {
   rpc GetById (AspIdRequest) returns (Asp) {}
 
   // get by user
-  rpc GetListByUser (AspIdRequest) returns (AspList) {}
+  rpc GetListByUser (AspUserIdRequest) returns (AspList) {}
 
   // get by item
-  rpc GetListByItem (AspIdRequest) returns (AspList) {}
+  rpc GetListByItem (AspItemIdRequest) returns (AspList) {}
 
   // get by service
   rpc GetListByService (AspServiceRequest) returns (AspList) {}
@@ -88,6 +88,14 @@ message AspIdRequest {
 
 message AspIdListRequest {
   repeated int64 id = 1;
+}
+
+message AspUserIdRequest {
+  int64 user_id = 1;
+}
+
+message AspItemIdRequest {
+  int64 item_id = 1;
 }
 
 // ユーザーの情報リクエストに使用するメッセージ型

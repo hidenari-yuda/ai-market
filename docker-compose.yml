@@ -3,7 +3,7 @@ services:
 
   # database mysql container
     db:
-      container_name: direct_ai_local_db
+      container_name: ai_market_local_db
       image: mysql:8.0.30
       networks:
         - ai-market-network
@@ -41,15 +41,15 @@ services:
         build:
           context: .
           target: dev
-          dockerfile: ./server/Dockerfile
+          dockerfile: ./server/Dockerfile.local
         tty: true
         expose:
             - 8080
         ports:
           - 8080:8080
         environment:
-          PROJECT_ID: foo
-          FIRESTORE_EMULATOR_HOST: host.docker.internal:8000
+          # PROJECT_ID: foo
+          # FIRESTORE_EMULATOR_HOST: host.docker.internal:8000
         command: ["air"]
         volumes:
           - ./server:/go/src/app
@@ -63,4 +63,4 @@ services:
             - 3000
         ports:
           - 3000:3000    
-        command: ["npm", "run", "start"]
+        command: ["yarn", "start"]

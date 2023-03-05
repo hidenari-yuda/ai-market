@@ -25,10 +25,10 @@ service LikeService {
   rpc GetById (LikeIdRequest) returns (Like) {}
 
   // get by user
-  rpc GetListByUser (LikeIdRequest) returns (LikeList) {}
+  rpc GetListByUser (LikeUserIdRequest) returns (LikeList) {}
 
   // get by item
-  rpc GetListByItem (LikeIdRequest) returns (LikeList) {}
+  rpc GetListByItem (LikeItemIdRequest) returns (LikeList) {}
 
   // get list by id list
   rpc GetListByIdList (LikeIdListRequest) returns (LikeList) {}
@@ -58,6 +58,14 @@ message LikeIdRequest {
 
 message LikeIdListRequest {
   repeated int64 id = 1;
+}
+
+message LikeUserIdRequest {
+  int64 user_id = 1;
+}
+
+message LikeItemIdRequest {
+  int64 item_id = 1;
 }
 
 // response

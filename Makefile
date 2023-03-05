@@ -2,13 +2,11 @@ OS=linux
 ARCH=amd64
 ROOT=$(GOPATH)/src/github.com/hidenari-yuda/ai-market
 
-.PHONY: setup build wire run up down enc-envfile migrate-new migrate-up migrate-down test test-all repository-test entity-test mock repository-mock interactor-mock driver-mock usecase-mock
+.PHONY: setup
 setup:
-	go install -v github.com/google/wire/cmd/wire@v0.5.0
-	go install -v github.com/rubenv/sql-migrate/sql-migrate@v1.1.2
-	go install -v github.com/golang/mock/mockgen@v1.6.0
-	go install -v github.com/cosmtrek/air@v1.40.4
-	make mock
+	sh ./scripts/setup-front.sh
+	sh ./scripts/setup-go.sh
+	sh ./scripts/setup-py.sh
 
 .PHONY: build go
 build:
@@ -20,11 +18,10 @@ build:
 wire:
 	wire ./infra/di/wire.go
 
-.PHONY: run
-run:
-	# export APP_ENV=local
-	air -c .conf/.air.toml
+# .PHONY: run-go
+run-go:
 
+.PHONY: wire
 up:
 	docker-compose -f docker-compose.yml up --build -d --log-opt max-size=100m --log-opt max-file=10 my-docker-image
 

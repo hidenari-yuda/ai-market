@@ -25,10 +25,10 @@ service FollowingService {
   rpc GetById (FollowingIdRequest) returns (Following) {}
 
   // get by user
-  rpc GetFollowedListByUser (FollowingIdRequest) returns (FollowingList) {}
+  rpc GetFollowedListByUser (FollowingUserIdRequest) returns (FollowingList) {}
 
   // get by user
-  rpc GetFollowingListByUser (FollowingIdRequest) returns (FollowingList) {}
+  rpc GetFollowingListByUser (FollowingUserIdRequest) returns (FollowingList) {}
 
   // get list by id list
   rpc GetListByIdList (FollowingIdListRequest) returns (FollowingList) {}
@@ -58,6 +58,10 @@ message FollowingIdRequest {
 
 message FollowingIdListRequest {
   repeated int64 id = 1;
+}
+
+message FollowingUserIdRequest {
+  int64 user_id = 1;
 }
 
 // response

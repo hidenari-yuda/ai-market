@@ -22,7 +22,7 @@ service ChatGroupService {
     // Get
     rpc GetById (ChatIdRequest) returns (ChatGroup);
 
-    rpc GetListByUser (ChatIdRequest) returns (ChatGroupList);
+    rpc GetListByUser (ChatUserIdRequest) returns (ChatGroupList);
 
     rpc GetAll(google.protobuf.Empty) returns (ChatGroupList);
 }
@@ -37,12 +37,12 @@ service ChatService {
     // Get
     rpc GetById (ChatIdRequest) returns (Chat);
 
-    rpc GetListByGroup (ChatIdRequest) returns (ChatList);
+    rpc GetListByGroup (ChatGroupIdRequest) returns (ChatList);
 
-    rpc GetStreamByGroup (ChatIdRequest) returns (stream Chat);
+    rpc GetStreamByGroup (ChatGroupIdRequest) returns (stream Chat);
 
 	// get latest chat for notification
-    rpc GetLatestChatByUser (ChatIdRequest) returns (stream Chat);
+    rpc GetLatestChatByUser (ChatUserIdRequest) returns (stream Chat);
 }
 
 // ユーザー情報を表すメッセージ型
@@ -98,6 +98,14 @@ message ChatRequest {
 
 message ChatIdRequest {
    int64 id = 1;
+}
+
+message ChatGroupIdRequest {
+   int64 group_id = 1;
+}
+
+message ChatUserIdRequest {
+   int64 user_id = 1;
 }
 
 // res

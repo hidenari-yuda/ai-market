@@ -29,27 +29,27 @@ service ItemService {
   rpc GetById (ItemIdRequest) returns (Item) {}
 
   // get by user
-  rpc GetListByUser (ItemIdRequest) returns (ItemList) {}
+  rpc GetListByUser (ItemUserIdRequest) returns (ItemList) {}
 
   // get by type
   rpc GetListByCategory (ItemCategoryRequest) returns (ItemList) {}
 
   // get by latest id=user_id
-  rpc GetLatestList(ItemIdRequest) returns (ItemList) {}
+  rpc GetLatestList(ItemUserIdRequest) returns (ItemList) {}
 
   // get by trend id=user_id
-  rpc GetTrendList(ItemIdRequest) returns (ItemList) {}
+  rpc GetTrendList(ItemUserIdRequest) returns (ItemList) {}
 
   // get by recommend id=user_id
-  rpc GetRecommendedListByUser(ItemIdRequest) returns (ItemList) {}
+  rpc GetRecommendedListByUser(ItemUserIdRequest) returns (ItemList) {}
 
   // get by sold id=user_id
-  rpc GetSoldListByUser(ItemIdRequest) returns (ItemList) {}
+  rpc GetSoldListByUser(ItemUserIdRequest) returns (ItemList) {}
 
-  rpc GetPurchasedListByUser(ItemIdRequest) returns (ItemList) {}
+  rpc GetPurchasedListByUser(ItemUserIdRequest) returns (ItemList) {}
 
   // get by liked id=user_id
-  rpc GetLikedListByUser(ItemIdRequest) returns (ItemList) {}
+  rpc GetLikedListByUser(ItemUserIdRequest) returns (ItemList) {}
 
   // get list by id list
   rpc GetListByIdList (ItemIdListRequest) returns (ItemList) {}
@@ -191,6 +191,10 @@ message ItemIdRequest {
 
 message ItemIdListRequest {
   repeated int64 id = 1;
+}
+
+message ItemUserIdRequest {
+  int64 user_id = 1;
 }
 
 // response

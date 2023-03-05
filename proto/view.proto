@@ -25,10 +25,10 @@ service ViewService {
   rpc GetById (ViewIdRequest) returns (View) {}
 
   // get by user
-  rpc GetListByUser (ViewIdRequest) returns (ViewList) {}
+  rpc GetListByUser (ViewUserIdRequest) returns (ViewList) {}
 
   // get by item
-  rpc GetListByItem (ViewIdRequest) returns (ViewList) {}
+  rpc GetListByItem (ViewItemIdRequest) returns (ViewList) {}
 
   // get list by id list
   rpc GetListByIdList (ViewIdListRequest) returns (ViewList) {}
@@ -58,6 +58,14 @@ message ViewIdRequest {
 
 message ViewIdListRequest {
   repeated int64 id = 1;
+}
+
+message ViewUserIdRequest {
+  int64 user_id = 1;
+}
+
+message ViewItemIdRequest {
+  int64 item_id = 1;
 }
 
 // response

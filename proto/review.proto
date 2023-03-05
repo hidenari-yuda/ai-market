@@ -29,10 +29,10 @@ service ReviewService {
   rpc GetById (ReviewIdRequest) returns (Review) {}
 
   // get by user
-  rpc GetListByUser (ReviewIdRequest) returns (ReviewList) {}
+  rpc GetListByUser (ReviewUserIdRequest) returns (ReviewList) {}
 
   // get by item
-  rpc GetListByItem (ReviewIdRequest) returns (ReviewList) {}
+  rpc GetListByItem (ReviewItemIdRequest) returns (ReviewList) {}
 
   // get list by id list
   rpc GetListByIdList (ReviewIdListRequest) returns (ReviewList) {}
@@ -69,6 +69,14 @@ message ReviewIdRequest {
 
 message ReviewIdListRequest {
   repeated int64 id = 1;
+}
+
+message ReviewUserIdRequest {
+  int64 user_id = 1;
+}
+
+message ReviewItemIdRequest {
+  int64 item_id = 1;
 }
 
 //response

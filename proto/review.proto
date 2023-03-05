@@ -31,7 +31,7 @@ service ReviewService {
   // get by user
   rpc GetListByUser (ReviewUserIdRequest) returns (ReviewList) {}
 
-  // get by item
+  // get by content
   rpc GetListByItem (ReviewItemIdRequest) returns (ReviewList) {}
 
   // get list by id list
@@ -47,7 +47,7 @@ service ReviewService {
 message Review {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   int64 user_id = 4;
   int64 star = 5;
   string title = 6;
@@ -76,7 +76,7 @@ message ReviewUserIdRequest {
 }
 
 message ReviewItemIdRequest {
-  int64 item_id = 1;
+  int64 content_id = 1;
 }
 
 //response

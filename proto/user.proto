@@ -5,7 +5,7 @@ syntax = "proto3";
 // import "google/protobuf/timestamp.proto";
 // import "google/protobuf/wrappers.proto";
 
-import "item.proto";
+import "content.proto";
 import "like.proto";
 import "chat.proto";
 import "following.proto";
@@ -75,7 +75,7 @@ message User {
   string updated_at = 9;
   bool is_deleted = 10; 
   
-  repeated item.Item item = 11;
+  repeated content.Content content = 11;
   repeated chat.ChatGroup chat_group = 13;
 
   point.Point point = 14;
@@ -132,8 +132,8 @@ message UserTopRequest {
 message UserSearchRequest {
   int64 user_id = 1;
   string free_word = 2;
-  item.ItemCategory category = 3;
-  item.ItemSubCategory sub_category = 4;
+  content.ContentCategory category = 3;
+  content.ContentSubCategory sub_category = 4;
 }
 
 // response

@@ -27,7 +27,7 @@ service ViewService {
   // get by user
   rpc GetListByUser (ViewUserIdRequest) returns (ViewList) {}
 
-  // get by item
+  // get by content
   rpc GetListByItem (ViewItemIdRequest) returns (ViewList) {}
 
   // get list by id list
@@ -41,7 +41,7 @@ service ViewService {
 message View {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   int64 user_id = 4;
   string created_at = 5;
   string updated_at = 6;
@@ -65,7 +65,7 @@ message ViewUserIdRequest {
 }
 
 message ViewItemIdRequest {
-  int64 item_id = 1;
+  int64 content_id = 1;
 }
 
 // response

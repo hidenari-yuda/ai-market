@@ -42,7 +42,7 @@ service OrderService {
 message Order {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   int64 order_user_id = 4; // user_id
   Progress progress = 5;
   enum Progress {

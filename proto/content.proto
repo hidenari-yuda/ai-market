@@ -11,57 +11,57 @@ import "like.proto";
 option go_package = "../server-go/pb";
 
 // Specify package name to avoid name collision
-package item;
+package content;
 
 // Method definition
-service ItemService {
+service ContentService {
   // general
   // create 
-  rpc Create (Item) returns (Item) {}
+  rpc Create (Content) returns (Content) {}
 
   // update 
-  rpc Update (Item) returns (ItemBoolResponse) {}
+  rpc Update (Content) returns (ContentBoolResponse) {}
 
   // delete
-  rpc Delete (ItemIdRequest) returns (ItemBoolResponse) {}
+  rpc Detaillete (ContentIdRequest) returns (ContentBoolResponse) {}
 
   // get by id
-  rpc GetById (ItemIdRequest) returns (Item) {}
+  rpc GetById (ContentIdRequest) returns (Content) {}
 
   // get by user
-  rpc GetListByUser (ItemUserIdRequest) returns (ItemList) {}
+  rpc GetListByUser (ContentUserIdRequest) returns (ContentList) {}
 
   // get by type
-  rpc GetListBySearch (ItemSearchRequest) returns (ItemList) {}
+  rpc GetListBySearch (ContentSearchRequest) returns (ContentList) {}
 
   // get by latest id=user_id
-  rpc GetLatestList(ItemUserIdRequest) returns (ItemList) {}
+  rpc GetLatestList(ContentUserIdRequest) returns (ContentList) {}
 
   // get by trend id=user_id
-  rpc GetTrendList(ItemUserIdRequest) returns (ItemList) {}
+  rpc GetTrendList(ContentUserIdRequest) returns (ContentList) {}
 
   // get by recommend id=user_id
-  rpc GetRecommendedListByUser(ItemUserIdRequest) returns (ItemList) {}
+  rpc GetRecommendedListByUser(ContentUserIdRequest) returns (ContentList) {}
 
   // get by sold id=user_id
-  rpc GetSoldListByUser(ItemUserIdRequest) returns (ItemList) {}
+  rpc GetSoldListByUser(ContentUserIdRequest) returns (ContentList) {}
 
-  rpc GetPurchasedListByUser(ItemUserIdRequest) returns (ItemList) {}
+  rpc GetPurchasedListByUser(ContentUserIdRequest) returns (ContentList) {}
 
   // get by liked id=user_id
-  rpc GetLikedListByUser(ItemUserIdRequest) returns (ItemList) {}
+  rpc GetLikedListByUser(ContentUserIdRequest) returns (ContentList) {}
 
   // get list by id list
-  rpc GetListByIdList (ItemIdListRequest) returns (ItemList) {}
+  rpc GetListByIdList (ContentIdListRequest) returns (ContentList) {}
 
   // admin
   // get all
-  rpc GetAll (google.protobuf.Empty) returns (ItemList) {}
+  rpc GetAll (google.protobuf.Empty) returns (ContentList) {}
 
 }
 
 // ユーザー情報を表すメッセージ型
-message Item {
+message Content {
   int64 id = 1;
   string uuid = 2;
   int64 user_id = 3;
@@ -76,31 +76,33 @@ message Item {
   string updated_at = 14;
   bool is_deleted = 15; 
 
-  repeated ItemContent item_content = 16;
-  repeated ItemCategory item_category = 17;
-  repeated ItemSubCategory item_sub_category = 18;
+  repeated ContentDetail content_detail = 16;
+  repeated ContentCategory content_category = 17;
+  repeated ContentSubCategory content_sub_category = 18;
 
   repeated like.Like like = 19;
 
   // not in db
   int64 like_count = 20;
-  int64 comment_count = 21;
-  int64 view_count = 22;
+  int64 view_count = 21;
+  int64 review_count = 22;
   int64 purchase_count = 23;
 }
 
-message ItemContent {
+message ContentDetail {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
+  string title = 4;
+  string description = 5;
   string content = 7;
 }
 
 // service
-message ItemTool {
+message ContentTool {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   Tool tool = 5;
   enum Tool {
     // https://ascii.jp/elem/000/004/124/4124022/
@@ -119,10 +121,10 @@ message ItemTool {
   string updated_at = 7;
 }
 
-message ItemCategory {
+message ContentCategory {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   Category category = 5;
     enum Category {
   YOUTUBE = 0;
@@ -150,10 +152,10 @@ message ItemCategory {
 }
 
 // ユーザー情報を表すメッセージ型
-message ItemSubCategory {
+message ContentSubCategory {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   SubCategory sub_category = 5;
     enum SubCategory {
   YOUTUBE = 0;
@@ -180,29 +182,29 @@ message ItemSubCategory {
   string updated_at = 7;
 }
 
-message ItemList {
-  repeated Item item = 1;
+message ContentList {
+  repeated Content content = 1;
 }
 
 // request
-message ItemIdRequest {
+message ContentIdRequest {
   int64 id = 1;
 }
 
-message ItemIdListRequest {
+message ContentIdListRequest {
   repeated int64 id = 1;
 }
 
-message ItemUserIdRequest {
+message ContentUserIdRequest {
   int64 user_id = 1;
 }
 
 // response
-message ItemBoolResponse {
+message ContentBoolResponse {
   bool error = 1;
 }
 
-message ItemSearchRequest {
+message ContentSearchRequest {
   int64 user_id = 1;
   string free_word = 2;
   repeated Tool tool = 3;

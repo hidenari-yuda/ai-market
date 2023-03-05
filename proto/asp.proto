@@ -28,7 +28,7 @@ service AspService {
   // get by user
   rpc GetListByUser (AspUserIdRequest) returns (AspList) {}
 
-  // get by item
+  // get by content
   rpc GetListByItem (AspItemIdRequest) returns (AspList) {}
 
   // get by service
@@ -47,7 +47,7 @@ service AspService {
 message Asp {
   int64 id = 1;
   string uuid = 2;
-  int64 item_id = 3;
+  int64 content_id = 3;
   int64 user_id = 4;
   repeated Service service = 6;
   enum Service {
@@ -95,7 +95,7 @@ message AspUserIdRequest {
 }
 
 message AspItemIdRequest {
-  int64 item_id = 1;
+  int64 content_id = 1;
 }
 
 // ユーザーの情報リクエストに使用するメッセージ型

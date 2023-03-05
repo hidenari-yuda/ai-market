@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+// import "google/protobuf/timestamp.proto";
+// import "google/protobuf/wrappers.proto";
+
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package review;
+
+// Method definition
+service ReviewService {
+  // general
+  // create 
+  rpc Create (Review) returns (Review) {}
+
+  // update 
+  rpc Update (Review) returns (ReviewBoolResponse) {}
+
+  // delete
+  rpc Delete (ReviewIdRequest) returns (ReviewBoolResponse) {}
+
+  // get by id
+  rpc GetById (ReviewIdRequest) returns (Review) {}
+
+  // get by user
+  rpc GetListByUser (ReviewIdRequest) returns (ReviewList) {}
+
+  // get by item
+  rpc GetListByItem (ReviewIdRequest) returns (ReviewList) {}
+
+  // get list by id list
+  rpc GetListByIdList (ReviewIdListRequest) returns (ReviewList) {}
+
+  // admin
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (ReviewList) {}
+
+}
+
+// ユーザー情報を表すメッセージ型
+message Review {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  int64 user_id = 4;
+  int64 star = 5;
+  string title = 6;
+  string description = 7;
+  string purchased_at = 8;
+  string created_at = 9;
+  string updated_at = 10;
+  bool is_deleted = 11; 
+}
+
+message ReviewList {
+  repeated Review review = 1;
+}
+
+// request
+message ReviewIdRequest {
+  int64 id = 1;
+}
+
+message ReviewIdListRequest {
+  repeated int64 id = 1;
+}
+
+//response
+message ReviewBoolResponse {
+  bool error = 1;
+}

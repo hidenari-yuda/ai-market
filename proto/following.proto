@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package following;
+
+// Method definition
+service FollowingService {
+  // create 
+  rpc Create (Following) returns (Following) {}
+
+  // update 
+  rpc Update (Following) returns (FollowingBoolResponse) {}
+
+  // delete
+  rpc Delete (FollowingIdRequest) returns (FollowingBoolResponse) {}
+
+  // get by id
+  rpc GetById (FollowingIdRequest) returns (Following) {}
+
+  // get by user
+  rpc GetFollowedListByUser (FollowingIdRequest) returns (FollowingList) {}
+
+  // get by user
+  rpc GetFollowingListByUser (FollowingIdRequest) returns (FollowingList) {}
+
+  // get list by id list
+  rpc GetListByIdList (FollowingIdListRequest) returns (FollowingList) {}
+
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (FollowingList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Following {
+  int64 id = 1;
+  string uuid = 2;
+  int64 followinging_user_id = 3;
+  int64 followinged_user_id = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message FollowingList {
+  repeated Following following = 1;
+}
+
+// request
+message FollowingIdRequest {
+  int64 id = 1;
+}
+
+message FollowingIdListRequest {
+  repeated int64 id = 1;
+}
+
+// response
+message FollowingBoolResponse {
+  bool error = 1;
+}

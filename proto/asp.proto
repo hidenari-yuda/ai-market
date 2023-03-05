@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package asp;
+
+// Method definition
+service AspService {
+  // general
+  // create 
+  rpc Create (Asp) returns (Asp) {}
+
+  // update 
+  rpc Update (Asp) returns (AspBoolResponse) {}
+
+  // delete
+  rpc Delete (AspIdRequest) returns (AspBoolResponse) {}
+
+  // get by id
+  rpc GetById (AspIdRequest) returns (Asp) {}
+
+  // get by user
+  rpc GetListByUser (AspIdRequest) returns (AspList) {}
+
+  // get by item
+  rpc GetListByItem (AspIdRequest) returns (AspList) {}
+
+  // get by service
+  rpc GetListByService (AspServiceRequest) returns (AspList) {}
+
+  // get list by id list
+  rpc GetListByIdList (stream AspIdListRequest) returns (AspList) {}
+
+  // admin
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (AspList) {}
+
+}
+
+// ユーザー情報を表すメッセージ型
+message Asp {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  int64 user_id = 4;
+  repeated Service service = 6;
+  enum Service {
+    YOUTUBE = 0;
+    TWITTER = 1;
+    INSTAGRAM = 2;
+    FACEBOOK = 3;
+    LINKEDIN = 4;
+    TIKTOK = 5;
+    PINTEREST = 6;
+    REDDIT = 7;
+    SNAPCHAT = 8;
+    TUMBLR = 9;
+    TWITCH = 10;
+    WEIBO = 11;
+    WECHAT = 12;
+    WHATSAPP = 13;
+    LINE = 14;
+    TELEGRAM = 15;
+    VK = 16;
+    YAHOO = 17; 
+    OTHER = 18;
+  }
+
+  string created_at = 7;
+  string updated_at = 8;
+  bool is_deleted = 9; 
+}
+
+message AspList {
+  repeated Asp Asp = 1;
+}
+
+// request
+message AspIdRequest {
+  int64 id = 1;
+}
+
+message AspIdListRequest {
+  repeated int64 id = 1;
+}
+
+// ユーザーの情報リクエストに使用するメッセージ型
+message AspServiceRequest {
+  enum AspService {
+    YOUTUBE = 0;
+    TWITTER = 1;
+    INSTAGRAM = 2;
+    FACEBOOK = 3;
+    LINKEDIN = 4;
+    TIKTOK = 5;
+    PINTEREST = 6;
+    REDDIT = 7;
+    SNAPCHAT = 8;
+    TUMBLR = 9;
+    TWITCH = 10;
+    WEIBO = 11;
+    WECHAT = 12;
+    WHATSAPP = 13;
+    LINE = 14;
+    TELEGRAM = 15;
+    VK = 16;
+    YAHOO = 17; 
+    OTHER = 18;
+  }
+  AspService Asp_type = 1;
+}
+
+// response
+message AspBoolResponse {
+  bool error = 1;
+}

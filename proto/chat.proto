@@ -1,0 +1,106 @@
+// Specify the version of the protocol
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package chat;
+
+service ChatGroupService {
+    // general
+    rpc Create (ChatGroup) returns (ChatGroup);
+
+    rpc Update (ChatGroup) returns (ChatBoolResponse);
+
+    rpc Delete (ChatIdRequest) returns (ChatBoolResponse);
+
+    // Get
+    rpc GetById (ChatIdRequest) returns (ChatGroup);
+
+    rpc GetListByUser (ChatIdRequest) returns (ChatGroupList);
+
+    rpc GetAll(google.protobuf.Empty) returns (ChatGroupList);
+}
+
+service ChatService {
+    rpc Create (Chat) returns (Chat);
+
+    rpc Update (Chat) returns (ChatBoolResponse);
+
+    rpc Delete (ChatIdRequest) returns (ChatBoolResponse);
+
+    // Get
+    rpc GetById (ChatIdRequest) returns (Chat);
+
+    rpc GetListByGroup (ChatIdRequest) returns (ChatList);
+
+    rpc GetStreamByGroup (ChatIdRequest) returns (stream Chat);
+
+	// get latest chat for notification
+    rpc GetLatestChatByUser (ChatIdRequest) returns (stream Chat);
+}
+
+// ユーザー情報を表すメッセージ型
+message ChatGroup {
+    int64 id = 1;
+    string uuid = 2;
+    int64 user_id = 3;
+    string title = 4;
+    string description = 5;
+    string created_at = 6;
+    string updated_at = 7;
+    bool is_deleted = 8;
+    
+    repeated chat.Chat chat = 9;
+    repeated ChatUser chat_user = 10;
+}
+
+message ChatGroupList {
+    string error = 1;
+    repeated ChatGroup chat_group = 2;
+}
+
+message Chat {
+    int64 id = 1; 
+    string uuid = 2;
+    int64 group_id = 3;
+    string title = 4; 
+    int64 from = 5;
+    int64 to = 6;
+    string content = 7;
+    string created_at = 8; 
+    string updated_at = 9; 
+    bool is_deleted = 10;
+}
+
+message ChatUser {
+    int64 id = 1;
+    string uuid = 2;
+    int64 group_id = 3;
+    int64 user_id = 4;
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message ChatList {
+    repeated Chat chat = 1;
+}
+
+// req
+message ChatRequest {
+   Chat chat = 1;
+}
+
+message ChatIdRequest {
+   int64 id = 1;
+}
+
+// res
+message ChatBoolResponse {
+    bool error = 1;
+}

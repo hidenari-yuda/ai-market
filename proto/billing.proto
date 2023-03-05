@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+// import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package billing;
+
+// Method definition
+service BillingService {
+  // create 
+  rpc Create (Billing) returns (Billing) {}
+
+  // update 
+  rpc Update (Billing) returns (BillingBoolResponse) {}
+
+  // delete
+  // rpc Delete (BillingIdRequest) returns (BillingBoolResponse) {}
+
+  // get by id
+  rpc GetById (BillingIdRequest) returns (Billing) {}
+
+  // get by user id
+  rpc GetByUserId (BillingIdRequest) returns (BillingList) {}
+
+  // get by service
+  // rpc GetListByService (BillingServiceRequest) returns (BillingList) {}
+
+  // get list by id list
+  // rpc GetListByIdList (stream BillingIdListRequest) returns (BillingList) {}
+
+  // get all
+  // rpc GetAll (google.protobuf.Empty) returns (BillingList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Billing {
+  int64 id = 1;
+  string uuid = 2;
+  int64 user_id = 3;
+  string title = 4;
+  string number = 5;
+  string password = 6;
+  Service service = 7;
+  enum Service {
+    NONE = 0;
+    NORMAL = 1;
+    ADMIN = 2;
+    GUEST = 3;
+    DISABLED = 4;
+  }
+  string created_at = 8;
+  string updated_at = 9;
+  bool is_deleted = 10; 
+}
+
+message BillingList {
+  repeated Billing billing = 1;
+}
+
+// request
+message BillingIdRequest {
+  int64 id = 1;
+}
+
+message BillingIdListRequest {
+  repeated int64 id = 1;
+}
+
+// res
+message BillingBoolResponse {
+  bool error = 1;
+}

@@ -1,0 +1,23 @@
+# docker ignores these files and directories when building the image
+
+*.md
+
+*.idea
+
+*.http
+
+*.gitingore
+
+*.git
+
+*.gitattributes
+
+*.gitignore
+
+*.pem
+
+*.DS_Store
+
+mock
+
+*.http

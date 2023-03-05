@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package view;
+
+// Method definition
+service ViewService {
+  // create 
+  rpc Create (View) returns (View) {}
+
+  // update 
+  rpc Update (View) returns (ViewBoolResponse) {}
+
+  // delete
+  rpc Delete (ViewIdRequest) returns (ViewBoolResponse) {}
+
+  // get by id
+  rpc GetById (ViewIdRequest) returns (View) {}
+
+  // get by user
+  rpc GetListByUser (ViewIdRequest) returns (ViewList) {}
+
+  // get by item
+  rpc GetListByItem (ViewIdRequest) returns (ViewList) {}
+
+  // get list by id list
+  rpc GetListByIdList (ViewIdListRequest) returns (ViewList) {}
+
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (ViewList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message View {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  int64 user_id = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message ViewList {
+  repeated View view = 1;
+}
+
+// request
+message ViewIdRequest {
+  int64 id = 1;
+}
+
+message ViewIdListRequest {
+  repeated int64 id = 1;
+}
+
+// response
+message ViewBoolResponse {
+  bool error = 1;
+}

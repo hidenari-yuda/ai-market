@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+// import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package cashback;
+
+// Method definition
+service CashbackService {
+  // general
+  // create 
+  rpc Create (Cashback) returns (Cashback) {}
+
+  // update 
+  rpc Update (Cashback) returns (CashbackBoolResponse) {}
+
+  // delete
+  rpc Delete (CashbackIdRequest) returns (CashbackBoolResponse) {}
+
+  // get by id
+  rpc GetById (CashbackIdRequest) returns (Cashback) {}
+
+  // get onsale list by user
+  rpc GetSoldListByUser (CashbackIdRequest) returns (CashbackList) {}
+
+  // get purchaed list by user
+  rpc GetPurchasedListByUser (CashbackIdRequest) returns (CashbackList) {}
+
+  // get list by id list
+  rpc GetListByIdList (stream CashbackIdListRequest) returns (CashbackList) {}
+
+  // get all
+  // rpc GetAll (google.protobuf.Empty) returns (CashbackList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Cashback {
+  int64 id = 1;
+  string uuid = 2;
+  int64 order_id = 3;
+  int64 cashbacked_user_id = 4;
+  Progress progress = 5;
+  enum Progress {
+    Requested = 0;
+    Paid = 1;
+    Pended = 2;
+    Canceled = 3;
+    Refunded = 4;
+    };
+  Service service = 6;
+  enum Service {
+    Point = 0;
+    Cash = 1;
+    Credit = 2;
+    };
+  string created_at = 10;
+  string updated_at = 11;
+  bool is_deleted = 12; 
+
+  // not in db
+  int64 price = 7;
+  int64 asp_rate = 8;
+  bool via_asp = 9; // true: asp, false: direct
+}
+
+message CashbackList {
+  repeated Cashback cashback = 1;
+}
+
+// request
+message CashbackIdRequest {
+  int64 id = 1;
+}
+
+message CashbackIdListRequest {
+  repeated int64 id = 1;
+}
+
+// response
+message CashbackBoolResponse {
+  bool error = 1;
+}

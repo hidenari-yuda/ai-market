@@ -1,0 +1,244 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+import "like.proto";
+
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package item;
+
+// Method definition
+service ItemService {
+  // general
+  // create 
+  rpc Create (Item) returns (Item) {}
+
+  // update 
+  rpc Update (Item) returns (ItemBoolResponse) {}
+
+  // delete
+  rpc Delete (ItemIdRequest) returns (ItemBoolResponse) {}
+
+  // get by id
+  rpc GetById (ItemIdRequest) returns (Item) {}
+
+  // get by user
+  rpc GetListByUser (ItemIdRequest) returns (ItemList) {}
+
+  // get by type
+  rpc GetListByCategory (ItemCategoryRequest) returns (ItemList) {}
+
+  // get by latest id=user_id
+  rpc GetLatestList(ItemIdRequest) returns (ItemList) {}
+
+  // get by trend id=user_id
+  rpc GetTrendList(ItemIdRequest) returns (ItemList) {}
+
+  // get by recommend id=user_id
+  rpc GetRecommendedListByUser(ItemIdRequest) returns (ItemList) {}
+
+  // get by sold id=user_id
+  rpc GetSoldListByUser(ItemIdRequest) returns (ItemList) {}
+
+  rpc GetPurchasedListByUser(ItemIdRequest) returns (ItemList) {}
+
+  // get by liked id=user_id
+  rpc GetLikedListByUser(ItemIdRequest) returns (ItemList) {}
+
+  // get list by id list
+  rpc GetListByIdList (ItemIdListRequest) returns (ItemList) {}
+
+  // admin
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (ItemList) {}
+
+}
+
+// ユーザー情報を表すメッセージ型
+message Item {
+  int64 id = 1;
+  string uuid = 2;
+  int64 user_id = 3;
+  string title = 4;
+  string description = 5;
+  string thumbnail = 6;
+  int64 price = 8;
+  int64 asp_rate = 9; // aspの料率
+  bool request_progress = 11; //コンテンツの審査
+  bool is_open = 12; //下書き false:下書き true:公開
+  string created_at = 13;
+  string updated_at = 14;
+  bool is_deleted = 15; 
+
+  repeated ItemContent item_content = 16;
+  repeated ItemCategory item_category = 17;
+  repeated ItemSubCategory item_sub_category = 18;
+
+  repeated like.Like like = 19;
+
+  // not in db
+  int64 like_count = 20;
+  int64 comment_count = 21;
+  int64 view_count = 22;
+  int64 purchase_count = 23;
+}
+
+message ItemContent {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  string content = 7;
+}
+
+// service
+message ItemTool {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  Tool tool = 5;
+  enum Tool {
+    // https://ascii.jp/elem/000/004/124/4124022/
+    Gen_1 = 0;
+    Imagen_Video = 1;
+    Make_Video = 2;
+    Versy = 3;
+    
+    // ChatGPT = 0;
+    // GPT_3 = 1;
+    // DALL_E = 2;
+    // Stable_Diffusion = 3;
+    // Midjourney = 4;
+  }
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ItemCategory {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  Category category = 5;
+    enum Category {
+  YOUTUBE = 0;
+  TWITTER = 1;
+  INSTAGRAM = 2;
+  FACEBOOK = 3;
+  LINKEDIN = 4;
+  TIKTOK = 5;
+  PINTEREST = 6;
+  REDDIT = 7;
+  SNAPCHAT = 8;
+  TUMBLR = 9;
+  TWITCH = 10;
+  WEIBO = 11;
+  WECHAT = 12;
+  WHATSAPP = 13;
+  LINE = 14;
+  TELEGRAM = 15;
+  VK = 16;
+  YAHOO = 17; 
+  OTHER = 18;
+}
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+// ユーザー情報を表すメッセージ型
+message ItemSubCategory {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  SubCategory sub_category = 5;
+    enum SubCategory {
+  YOUTUBE = 0;
+  TWITTER = 1;
+  INSTAGRAM = 2;
+  FACEBOOK = 3;
+  LINKEDIN = 4;
+  TIKTOK = 5;
+  PINTEREST = 6;
+  REDDIT = 7;
+  SNAPCHAT = 8;
+  TUMBLR = 9;
+  TWITCH = 10;
+  WEIBO = 11;
+  WECHAT = 12;
+  WHATSAPP = 13;
+  LINE = 14;
+  TELEGRAM = 15;
+  VK = 16;
+  YAHOO = 17; 
+  OTHER = 18;
+}
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ItemList {
+  repeated Item item = 1;
+}
+
+// request
+message ItemIdRequest {
+  int64 id = 1;
+}
+
+message ItemIdListRequest {
+  repeated int64 id = 1;
+}
+
+// response
+message ItemBoolResponse {
+  bool error = 1;
+}
+
+message ItemCategoryRequest {
+  int64 user_id = 1;
+  string free_word = 2;
+  repeated Tool tool = 3;
+  enum Tool {
+    // https://ascii.jp/elem/000/004/124/4124022/
+    Gen_1 = 0;
+    Imagen_Video = 1;
+    Make_Video = 2;
+    Versy = 3;
+    
+    // ChatGPT = 0;
+    // GPT_3 = 1;
+    // DALL_E = 2;
+    // Stable_Diffusion = 3;
+    // Midjourney = 4;
+  }
+  repeated Category category = 4;
+    enum Category {
+    YOUTUBE = 0;
+    TWITTER = 1;
+    INSTAGRAM = 2;
+    FACEBOOK = 3;
+    LINKEDIN = 4;
+    TIKTOK = 5;
+    PINTEREST = 6;
+    REDDIT = 7;
+    SNAPCHAT = 8;
+    TUMBLR = 9;
+    TWITCH = 10;
+    WEIBO = 11;
+    WECHAT = 12;
+    WHATSAPP = 13;
+    LINE = 14;
+    TELEGRAM = 15;
+    VK = 16;
+    YAHOO = 17; 
+    OTHER = 18;
+  };
+  repeated SubCategory sub_category = 5;
+    enum SubCategory {  
+    YOUTUBE_P = 0;
+  };
+}

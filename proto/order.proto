@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package order;
+
+// Method definition
+service OrderService {
+  // general
+  // create 
+  rpc Create (Order) returns (Order) {}
+
+  // update 
+  rpc Update (Order) returns (OrderBoolResponse) {}
+
+  // delete
+  rpc Delete (OrderIdRequest) returns (OrderBoolResponse) {}
+
+  // get by id
+  rpc GetById (OrderIdRequest) returns (Order) {}
+
+  // get onsale list by user
+  rpc GetSoldListByUser (OrderIdRequest) returns (OrderList) {}
+
+  // get purchaed list by user
+  rpc GetPurchasedListByUser (OrderIdRequest) returns (OrderList) {}
+
+  // get list by id list
+  rpc GetListByIdList (stream OrderIdListRequest) returns (OrderList) {}
+
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (OrderList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Order {
+  int64 id = 1;
+  string uuid = 2;
+  int64 item_id = 3;
+  int64 order_user_id = 4; // user_id
+  Progress progress = 5;
+  enum Progress {
+    Requested = 0;
+    Paid = 1;
+    Pended = 2;
+    Canceled = 3;
+    Refunded = 4;
+    };
+  int64 price = 7;
+  int64 asp_rate = 8;
+  bool via_asp = 9; // true: asp, false: direct
+  string created_at = 10;
+  string updated_at = 11;
+  bool is_deleted = 12; 
+}
+
+message OrderList {
+  repeated Order order = 1;
+}
+
+// request
+message OrderIdRequest {
+  int64 id = 1;
+}
+
+message OrderIdListRequest {
+  repeated int64 id = 1;
+}
+
+// response
+message OrderBoolResponse {
+  bool error = 1;
+}

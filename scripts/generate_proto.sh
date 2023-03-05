@@ -16,7 +16,7 @@ if [[ $1 = all ]]; then
 
 		docker rm $(docker ps -l -q)
 
-		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-python/pb/ -l py
+		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-py/pb/ -l py
 
 		# echo "removing" $(docker ps -l -q)
 

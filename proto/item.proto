@@ -32,7 +32,7 @@ service ItemService {
   rpc GetListByUser (ItemUserIdRequest) returns (ItemList) {}
 
   // get by type
-  rpc GetListByCategory (ItemCategoryRequest) returns (ItemList) {}
+  rpc GetListBySearch (ItemSearchRequest) returns (ItemList) {}
 
   // get by latest id=user_id
   rpc GetLatestList(ItemUserIdRequest) returns (ItemList) {}
@@ -202,7 +202,7 @@ message ItemBoolResponse {
   bool error = 1;
 }
 
-message ItemCategoryRequest {
+message ItemSearchRequest {
   int64 user_id = 1;
   string free_word = 2;
   repeated Tool tool = 3;

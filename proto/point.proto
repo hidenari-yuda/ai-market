@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+// import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package point;
+
+// Method definition
+service PointService {
+  // general
+  // create 
+  rpc Create (Point) returns (Point) {}
+
+  // update 
+  rpc Update (Point) returns (PointBoolResponse) {}
+
+  // delete
+  rpc Delete (PointIdRequest) returns (PointBoolResponse) {}
+
+  // get by id
+  rpc GetById (PointIdRequest) returns (Point) {}
+
+  // get onsale list by user
+  rpc GetByUser (PointUserIdRequest) returns (Point) {}
+
+  // get list by id list
+  rpc GetListByIdList (PointIdListRequest) returns (PointList) {}
+
+  // get all
+  // rpc GetAll (google.protobuf.Empty) returns (PointList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Point {
+  int64 id = 1;
+  string uuid = 2;
+  int64 user_id = 4;
+  int64 point = 5;
+  string created_at = 10;
+  string updated_at = 11;
+  bool is_deleted = 12; 
+}
+
+message PointList {
+  repeated Point point = 1;
+}
+
+// request
+message PointIdRequest {
+  int64 id = 1;
+}
+
+message PointIdListRequest {
+  repeated int64 id = 1;
+}
+
+message PointUserIdRequest {
+  int64 user_id = 1;
+}
+
+// response
+message PointBoolResponse {
+  bool error = 1;
+}

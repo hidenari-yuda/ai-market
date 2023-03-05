@@ -30,4 +30,4 @@ request.http
 
 *.sum
 
-/pb
+/pb/

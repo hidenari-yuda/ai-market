@@ -8,42 +8,42 @@ syntax = "proto3";
 option go_package = "../server-go/pb";
 
 // Specify package name to avoid name collision
-package cashback;
+package point_history;
 
 // Method definition
-service CashbackService {
+service PointHistoryService {
   // general
   // create 
-  rpc Create (Cashback) returns (Cashback) {}
+  rpc Create (PointHistory) returns (PointHistory) {}
 
   // update 
-  rpc Update (Cashback) returns (CashbackBoolResponse) {}
+  rpc Update (PointHistory) returns (PointHistoryBoolResponse) {}
 
   // delete
-  rpc Delete (CashbackIdRequest) returns (CashbackBoolResponse) {}
+  rpc Delete (PointHistoryIdRequest) returns (PointHistoryBoolResponse) {}
 
   // get by id
-  rpc GetById (CashbackIdRequest) returns (Cashback) {}
+  rpc GetById (PointHistoryIdRequest) returns (PointHistory) {}
 
   // get onsale list by user
-  rpc GetSoldListByUser (CashbackUserIdRequest) returns (CashbackList) {}
+  rpc GetSoldListByUser (PointHistoryUserIdRequest) returns (PointHistoryList) {}
 
   // get purchaed list by user
-  rpc GetPurchasedListByUser (CashbackUserIdRequest) returns (CashbackList) {}
+  rpc GetPurchasedListByUser (PointHistoryUserIdRequest) returns (PointHistoryList) {}
 
   // get list by id list
-  rpc GetListByIdList (CashbackIdListRequest) returns (CashbackList) {}
+  rpc GetListByIdList (PointHistoryIdListRequest) returns (PointHistoryList) {}
 
   // get all
-  // rpc GetAll (google.protobuf.Empty) returns (CashbackList) {}
+  // rpc GetAll (google.protobuf.Empty) returns (PointHistoryList) {}
 }
 
 // ユーザー情報を表すメッセージ型
-message Cashback {
+message PointHistory {
   int64 id = 1;
   string uuid = 2;
   int64 order_id = 3;
-  int64 cashbacked_user_id = 4;
+  int64 user_id = 4;
   Progress progress = 5;
   enum Progress {
     Requested = 0;
@@ -68,24 +68,24 @@ message Cashback {
   bool via_asp = 9; // true: asp, false: direct
 }
 
-message CashbackList {
-  repeated Cashback cashback = 1;
+message PointHistoryList {
+  repeated PointHistory point_history = 1;
 }
 
 // request
-message CashbackIdRequest {
+message PointHistoryIdRequest {
   int64 id = 1;
 }
 
-message CashbackIdListRequest {
+message PointHistoryIdListRequest {
   repeated int64 id = 1;
 }
 
-message CashbackUserIdRequest {
+message PointHistoryUserIdRequest {
   int64 user_id = 1;
 }
 
 // response
-message CashbackBoolResponse {
+message PointHistoryBoolResponse {
   bool error = 1;
 }

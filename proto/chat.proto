@@ -22,6 +22,9 @@ service ChatGroupService {
     // Get
     rpc GetById (ChatIdRequest) returns (ChatGroup);
 
+    // get by uuid
+    rpc GetByUuid (ChatUuidRequest) returns (ChatGroup);
+
     rpc GetListByUser (ChatUserIdRequest) returns (ChatGroupList);
 
     rpc GetAll(google.protobuf.Empty) returns (ChatGroupList);
@@ -98,6 +101,10 @@ message ChatRequest {
 
 message ChatIdRequest {
    int64 id = 1;
+}
+
+message ChatUuidRequest {
+   string uuid = 1;
 }
 
 message ChatGroupIdRequest {

@@ -28,6 +28,9 @@ service ContentService {
   // get by id
   rpc GetById (ContentIdRequest) returns (Content) {}
 
+  // get by uuid
+  rpc GetByUuid (ContentUuidRequest) returns (Content) {}
+
   // get by user
   rpc GetListByUser (ContentUserIdRequest) returns (ContentList) {}
 
@@ -35,10 +38,10 @@ service ContentService {
   rpc GetListBySearch (ContentSearchRequest) returns (ContentList) {}
 
   // get by latest id=user_id
-  rpc GetLatestList(ContentUserIdRequest) returns (ContentList) {}
+  rpc GetLatestList(google.protobuf.Empty) returns (ContentList) {}
 
   // get by trend id=user_id
-  rpc GetTrendList(ContentUserIdRequest) returns (ContentList) {}
+  rpc GetTrendList(google.protobuf.Empty) returns (ContentList) {}
 
   // get by recommend id=user_id
   rpc GetRecommendedListByUser(ContentUserIdRequest) returns (ContentList) {}
@@ -87,6 +90,13 @@ message Content {
   int64 view_count = 21;
   int64 review_count = 22;
   int64 purchase_count = 23;
+  Currency currency = 24;
+  enum Currency {
+    USD = 0;
+    JPY = 1;
+    EUR = 2;
+    GBP = 3;
+  }
 }
 
 message ContentDetail {
@@ -189,6 +199,10 @@ message ContentList {
 // request
 message ContentIdRequest {
   int64 id = 1;
+}
+
+message ContentUuidRequest {
+  string uuid = 1;
 }
 
 message ContentIdListRequest {

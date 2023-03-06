@@ -25,6 +25,9 @@ service PointService {
   // get by id
   rpc GetById (PointIdRequest) returns (Point) {}
 
+  // get by uuid
+  rpc GetByUuid (PointUuidRequest) returns (Point) {}
+
   // get onsale list by user
   rpc GetByUser (PointUserIdRequest) returns (Point) {}
 
@@ -53,6 +56,10 @@ message PointList {
 // request
 message PointIdRequest {
   int64 id = 1;
+}
+
+message PointUuidRequest {
+  string uuid = 1;
 }
 
 message PointIdListRequest {

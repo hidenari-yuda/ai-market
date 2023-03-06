@@ -25,6 +25,9 @@ service OrderService {
   // get by id
   rpc GetById (OrderIdRequest) returns (Order) {}
 
+  // get by uuid
+  rpc GetByUuid (OrderUuidRequest) returns (Order) {}
+
   // get onsale list by user
   rpc GetSoldListByUser (OrderUserIdRequest) returns (OrderList) {}
 
@@ -43,21 +46,30 @@ message Order {
   int64 id = 1;
   string uuid = 2;
   int64 content_id = 3;
-  int64 order_user_id = 4; // user_id
-  Progress progress = 5;
+  int64 billing_id = 4;
+  int64 order_user_id = 5; // user_id
+  Progress progress = 6;
   enum Progress {
+    // Not 
     Requested = 0;
     Paid = 1;
     Pended = 2;
     Canceled = 3;
     Refunded = 4;
     };
-  int64 price = 7;
-  int64 asp_rate = 8;
-  bool via_asp = 9; // true: asp, false: direct
-  string created_at = 10;
-  string updated_at = 11;
-  bool is_deleted = 12; 
+  Service service = 7;
+  enum Service {
+    Point = 0;
+    Cash = 1;
+    Credit = 2;
+    };
+  int64 price = 8;
+  int64 asp_rate = 9;
+  bool via_asp = 10; // true: asp, false: direct
+  int64 used_point = 11;
+  string created_at = 12;
+  string updated_at = 13;
+  bool is_deleted = 14;
 }
 
 message OrderList {
@@ -67,6 +79,10 @@ message OrderList {
 // request
 message OrderIdRequest {
   int64 id = 1;
+}
+
+message OrderUuidRequest {
+  string uuid = 1;
 }
 
 message OrderIdListRequest {

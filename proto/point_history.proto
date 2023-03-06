@@ -25,6 +25,12 @@ service PointHistoryService {
   // get by id
   rpc GetById (PointHistoryIdRequest) returns (PointHistory) {}
 
+  // get by uuid
+  rpc GetByUuid (PointHistoryUuidRequest) returns (PointHistory) {}
+
+  // get by order id
+  rpc GetByOrderId (PointHistoryIdRequest) returns (PointHistory) {}
+
   // get onsale list by user
   rpc GetSoldListByUser (PointHistoryUserIdRequest) returns (PointHistoryList) {}
 
@@ -58,12 +64,13 @@ message PointHistory {
     Cash = 1;
     Credit = 2;
     };
+  int64 used_point = 7;
   string created_at = 10;
   string updated_at = 11;
   bool is_deleted = 12; 
 
   // not in db
-  int64 price = 7;
+  int64 price = 14;
   int64 asp_rate = 8;
   bool via_asp = 9; // true: asp, false: direct
 }
@@ -75,6 +82,10 @@ message PointHistoryList {
 // request
 message PointHistoryIdRequest {
   int64 id = 1;
+}
+
+message PointHistoryUuidRequest {
+  string uuid = 1;
 }
 
 message PointHistoryIdListRequest {

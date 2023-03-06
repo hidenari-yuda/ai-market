@@ -25,6 +25,9 @@ service AspService {
   // get by id
   rpc GetById (AspIdRequest) returns (Asp) {}
 
+  // get by uuid
+  rpc GetByUuid (AspUuidRequest) returns (Asp) {}
+
   // get by user
   rpc GetListByUser (AspUserIdRequest) returns (AspList) {}
 
@@ -84,6 +87,10 @@ message AspList {
 // request
 message AspIdRequest {
   int64 id = 1;
+}
+
+message AspUuidRequest {
+  string uuid = 1;
 }
 
 message AspIdListRequest {

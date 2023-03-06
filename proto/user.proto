@@ -16,7 +16,7 @@ import "point_history.proto";
 // option go_package = "./";
 option go_package = "../server-go/pb";
 
-// Specify package name to avoid name collision
+// Specify packagepl name to avoid name collision
 package user;
 
 // Method definition
@@ -33,6 +33,9 @@ service UserService {
 
   // get by id
   rpc GetById (UserIdRequest) returns (User) {}
+
+  // get by uuid
+  rpc GetByUuid (UserUuidRequest) returns (User) {}
 
   // get by user_type
   rpc GetListByType (UserTypeRequest) returns (UserList) {}
@@ -110,6 +113,10 @@ message UserIdRequest {
   int64 id = 1;
 }
 
+message UserUuidRequest {
+  string uuid = 1;
+}
+
 message UserIdListRequest {
   repeated int64 id = 1;
 }
@@ -132,8 +139,9 @@ message UserTopRequest {
 message UserSearchRequest {
   int64 user_id = 1;
   string free_word = 2;
-  content.ContentCategory category = 3;
-  content.ContentSubCategory sub_category = 4;
+  content.ContentTool tool = 3;
+  content.ContentCategory category = 4;
+  content.ContentSubCategory sub_category = 5;
 }
 
 // response

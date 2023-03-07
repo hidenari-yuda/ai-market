@@ -1,4 +1,7 @@
 version: "3.8"
+networks:
+  ai-market-network:
+    driver: bridge
 services:
 
   # database mysql container
@@ -10,22 +13,26 @@ services:
       ports:
         - 3306:3306
       volumes:
-        - .conf/conf.d:/etc/mysql/conf.d
+        - ./server-go/conf/conf.d:/etc/mysql/conf.d
       environment:
         MYSQL_DATABASE: ai_market_local
         MYSQL_ROOT_PASSWORD: password
 
     # reverse proxy container
     envoy:
+      container_name: ai_market_local_envoy
       build:
         context: .
         dockerfile: ./Dockerfile.envoy
       ports:
         - 9090:9090
         - 9901:9901
+      networks:
+        - ai-market-network
 
     # database firestore container
     # db:
+    #   container_name: ai_market_local_firestore
     #   build:
     #     context: .
     #     dockerfile: ./Dockerfile.firestore
@@ -37,30 +44,57 @@ services:
     #     - .:/app
 
     # server container
-    server:
-        build:
-          context: .
-          target: dev
-          dockerfile: ./server/Dockerfile.local
-        tty: true
-        expose:
-            - 8080
-        ports:
-          - 8080:8080
-        environment:
-          # PROJECT_ID: foo
-          # FIRESTORE_EMULATOR_HOST: host.docker.internal:8000
-        command: ["air"]
-        volumes:
-          - ./server:/go/src/app
+    # server:
+    #     build:
+    #       context: .
+    #       target: dev
+    #       dockerfile: ./server/Dockerfile.local
+    #     tty: true
+    #     expose:
+    #         - 8080
+    #     ports:
+    #       - 8080:8080
+    #     environment:
+
+    #       # PROJECT_ID: foo
+    #       # FIRESTORE_EMULATOR_HOST: host.docker.internal:8000
+    #     # command: ["air", "-c", ".air.toml"]
+    #     networks:
+    #       - ai-market-network
+    #     env_file:
+    #        - .env
+    #     volumes:
+    #       - ./server-go:/go/src/app
+
+    # batch container
+    #   butler:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.local
+    # networks:
+    #   - ai-market-network
+    # volumes:
+    #   - .:/go/src/app
+    # env_file:
+    #   - .env
+    # environment:
+    #   APP_SERVICE: batch
+    #   APP_BATCH_TYPE: butler
+    #   DB_HOST: db
+    # depends_on:
+    #   - db
+    # command: go run ./cmd/main.go
 
     # client container
-    client:
-        build:
-          context: .
-          dockerfile: ./Dockerfile.client
-        expose:
-            - 3000
-        ports:
-          - 3000:3000    
-        command: ["yarn", "start"]
+    # client:
+    #     container_name: ai_market_local_client
+    #     build:
+    #       context: .
+    #       dockerfile: ./Dockerfile.client
+    #     expose:
+    #         - 3000
+    #     ports:
+    #       - 3000:3000    
+    #     command: ["yarn", "start"]
+    #     networks:
+    #       - ai-market-network

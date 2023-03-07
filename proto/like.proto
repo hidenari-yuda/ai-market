@@ -28,7 +28,7 @@ service LikeService {
   rpc GetListByUser (LikeUserIdRequest) returns (LikeList) {}
 
   // get by content
-  rpc GetListByItem (LikeItemIdRequest) returns (LikeList) {}
+  rpc GetListByContent (LikeContentIdRequest) returns (LikeList) {}
 
   // get list by id list
   rpc GetListByIdList (LikeIdListRequest) returns (LikeList) {}
@@ -64,7 +64,7 @@ message LikeUserIdRequest {
   int64 user_id = 1;
 }
 
-message LikeItemIdRequest {
+message LikeContentIdRequest {
   int64 content_id = 1;
 }
 

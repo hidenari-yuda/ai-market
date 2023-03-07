@@ -105,7 +105,6 @@ message ContentDetail {
   int64 content_id = 3;
   string title = 4;
   string description = 5;
-  string content = 7;
 }
 
 // service

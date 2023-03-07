@@ -1,0 +1,53 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: server-go
+    spec:
+      containers:
+      - name: server-go
+        image: server-go-latest:8080
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: "info"
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: "2"
+      - name: envoy
+        image: envoyproxy/envoy:v1.17.0
+        ports:
+        - containerPort: 9901
+        - containerPort: 9090
+        args:
+        - --config-path
+        - /etc/envoy/envoy.yaml
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
+      # volumes:
+      # - name: envoy-config
+      #   configMap:
+      #     name: envoy-config
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-go
+spec:
+  selector:
+    app: server-go
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

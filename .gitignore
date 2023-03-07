@@ -31,3 +31,7 @@ request.http
 *.sum
 
 /pb/
+
+envoy.local.yml
+envoy.dev.yml
+envoy.prd.yml

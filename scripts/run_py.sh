@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# cd ~/ai-market/server-py
+
 if [ $1 = dev ]; then
   echo "Starting server-go in development mode"
   cd server-py

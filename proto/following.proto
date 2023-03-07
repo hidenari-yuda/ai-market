@@ -41,8 +41,8 @@ service FollowingService {
 message Following {
   int64 id = 1;
   string uuid = 2;
-  int64 followinging_user_id = 3;
-  int64 followinged_user_id = 4;
+  int64 following_user_id = 3;
+  int64 followed_user_id = 4;
   string created_at = 5;
   string updated_at = 6;
 }

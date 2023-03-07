@@ -47,19 +47,23 @@ message Billing {
   int64 user_id = 3;
   string title = 4;
   string number = 5;
-  string password = 6;
-  Service service = 7;
+  int64 expiration_year = 6;
+  int64 expiration_month = 7;
+  string security_code = 8;
+  string name = 9;
+  string password = 10;
+  Service service = 11;
   enum Service {
     NONE = 0;
-    NORMAL = 1;
-    ADMIN = 2;
-    GUEST = 3;
-    DISABLED = 4;
+    CREDIT = 1;
+    BANK = 2;
+    CASH = 3;
+    PAYPAL = 4;
   }
-  bool is_registered = 8;
-  string created_at = 9;
-  string updated_at = 10;
-  bool is_deleted = 11; 
+  bool is_registered = 12;
+  string created_at = 13;
+  string updated_at = 14;
+  bool is_deleted = 15;
 }
 
 message BillingList {

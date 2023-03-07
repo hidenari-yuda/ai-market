@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# cd ~/ai-market/front-user
+
 if [ $1 = dev ]; then
   echo "Starting front-end in development mode"
   export DOTENV_CONFIG_PATH=front-user/config/.env.dev

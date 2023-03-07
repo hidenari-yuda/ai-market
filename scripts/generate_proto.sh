@@ -6,17 +6,23 @@ if [[ $1 = all ]]; then
 
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./pb/ -l go
 
+		docker stop $(docker ps -l -q)
+
 		echo "removing" $(docker ps -l -q)
 
 		docker rm $(docker ps -l -q)
 
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./front-user/src/pb/ -l web
 
+		docker stop $(docker ps -l -q)
+
 		echo "removing" $(docker ps -l -q)
 
 		docker rm $(docker ps -l -q)
 
 		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-py/pb/ -l py
+
+		# docker stop $(docker ps -l -q)
 
 		# echo "removing" $(docker ps -l -q)
 
@@ -34,6 +40,8 @@ elif [[ $1 = go ]]; then
 		# -l: 生成する言語を指定
 
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./pb -l go
+
+		docker stop $(docker ps -l -q)
 
 		echo "removing" $(docker ps -l -q)
 
@@ -63,6 +71,8 @@ elif [[ $1 = js ]]; then
 		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./front-user/src/pb/ -l typescript
 		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-js/pb -l js
 
+		docker stop $(docker ps -l -q)
+
 		echo "removing" $(docker ps -l -q)
 
 		docker rm $(docker ps -l -q)
@@ -84,6 +94,8 @@ elif [[ $1 = py ]]; then
 
 	if [[ -z $2 ]]; then
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-python/pb -l py
+
+		docker stop $(docker ps -l -q)
 
 		echo "removing" $(docker ps -l -q)
 

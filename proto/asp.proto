@@ -32,7 +32,7 @@ service AspService {
   rpc GetListByUser (AspUserIdRequest) returns (AspList) {}
 
   // get by content
-  rpc GetListByItem (AspItemIdRequest) returns (AspList) {}
+  rpc GetListByContent (AspContentIdRequest) returns (AspList) {}
 
   // get by service
   rpc GetListByService (AspServiceRequest) returns (AspList) {}
@@ -101,7 +101,7 @@ message AspUserIdRequest {
   int64 user_id = 1;
 }
 
-message AspItemIdRequest {
+message AspContentIdRequest {
   int64 content_id = 1;
 }
 

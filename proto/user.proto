@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 // Use convenience types defined and published as a package by Google
-// import "google/protobuf/empty.proto";
+import "google/protobuf/empty.proto";
 // import "google/protobuf/timestamp.proto";
 // import "google/protobuf/wrappers.proto";
 
@@ -40,8 +40,11 @@ service UserService {
   // get by user_type
   rpc GetListByType (UserTypeRequest) returns (UserList) {}
 
+  // get latest list
+  rpc GetLatestList (google.protobuf.Empty) returns (UserList) {}
+
   // get list by trend
-  rpc GetTopList (UserTopRequest) returns (UserList) {}
+  rpc GetTrendList (google.protobuf.Empty) returns (UserList) {}
 
   // get list by search
   rpc GetListBySearch (UserSearchRequest) returns (UserList) {}
@@ -130,10 +133,6 @@ message UserTypeRequest {
     GUEST = 3;
     DISABLED = 4;
   }
-}
-
-message UserTopRequest {
-  int64 user_id = 1;
 }
 
 message UserSearchRequest {

@@ -3,7 +3,7 @@ syntax = "proto3";
 // Use convenience types defined and published as a package by Google
 import "google/protobuf/empty.proto";
 
-import "like.proto";
+// import "like.proto";
 
 
 // Specify the directory where the code is automatically generated
@@ -79,11 +79,12 @@ message Content {
   string updated_at = 14;
   bool is_deleted = 15; 
 
-  repeated ContentDetail content_detail = 16;
-  repeated ContentCategory content_category = 17;
-  repeated ContentSubCategory content_sub_category = 18;
+  repeated ContentDetail details = 16;
+  repeated ContentTool tools = 17;
+  repeated ContentCategory categories = 18;
+  repeated ContentSubCategory sub_categories = 19;
 
-  repeated like.Like like = 19;
+  // repeated like.Like like = 20;
 
   // not in db
   int64 like_count = 20;

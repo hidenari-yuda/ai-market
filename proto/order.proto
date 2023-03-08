@@ -35,7 +35,7 @@ service OrderService {
   rpc GetPurchasedListByUser (OrderUserIdRequest) returns (OrderList) {}
 
   // get list by id list
-  rpc GetListByIdList (stream OrderIdListRequest) returns (OrderList) {}
+  rpc GetListByIdList (OrderIdListRequest) returns (OrderList) {}
 
   // get all
   rpc GetAll (google.protobuf.Empty) returns (OrderList) {}

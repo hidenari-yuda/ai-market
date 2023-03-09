@@ -22,6 +22,15 @@ service ContentService {
   // update 
   rpc Update (Content) returns (ContentBoolResponse) {}
 
+  // update impression
+  rpc UpdateImpressionByIdList (ContentIdListRequest) returns (ContentBoolResponse) {}
+
+  // update view
+  rpc UpdateView (ContentIdRequest) returns (ContentBoolResponse) {}
+
+  // update click
+  rpc UpdateClick (ContentIdRequest) returns (ContentBoolResponse) {}
+
   // delete
   rpc Detaillete (ContentIdRequest) returns (ContentBoolResponse) {}
 
@@ -88,16 +97,24 @@ message Content {
 
   // not in db
   int64 like_count = 20;
-  int64 view_count = 21;
-  int64 review_count = 22;
-  int64 purchase_count = 23;
-  Currency currency = 24;
+  int64 impression_count = 21;
+  int64 view_count = 22;
+  int64 click_count = 23;
+  int64 order_count = 24;
+  int64 purchase_count = 25;
+  int64 review_count = 26;
+  Currency currency = 27;
   enum Currency {
     USD = 0;
     JPY = 1;
     EUR = 2;
     GBP = 3;
   }
+
+  // not in db
+  int64 user_name = 28;
+  int64 user_icon = 29;
+  int64 user_description = 30;
 }
 
 message ContentDetail {

@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package share;
+
+// Method definition
+service ShareService {
+  // create 
+  rpc Create (Share) returns (Share) {}
+
+  // update 
+  rpc Update (Share) returns (ShareBoolResponse) {}
+
+  // delete
+  rpc Delete (ShareIdRequest) returns (ShareBoolResponse) {}
+
+  // get by id
+  rpc GetById (ShareIdRequest) returns (Share) {}
+
+  // get by user
+  rpc GetListByUser (ShareUserIdRequest) returns (ShareList) {}
+
+  // get by content
+  rpc GetListByContent (ShareContentIdRequest) returns (ShareList) {}
+
+  // get list by id list
+  rpc GetListByIdList (ShareIdListRequest) returns (ShareList) {}
+
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (ShareList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Share {
+  int64 id = 1;
+  string uuid = 2;
+  int64 content_id = 3;
+  int64 user_id = 4;
+  repeated Service service = 5;
+  enum Service {
+    YOUTUBE = 0;
+    TWITTER = 1;
+    INSTAGRAM = 2;
+    FACEBOOK = 3;
+    LINKEDIN = 4;
+    TIKTOK = 5;
+    PINTEREST = 6;
+    REDDIT = 7;
+    SNAPCHAT = 8;
+    TUMBLR = 9;
+    TWITCH = 10;
+    WEIBO = 11;
+    WECHAT = 12;
+    WHATSAPP = 13;
+    LINE = 14;
+    TELEGRAM = 15;
+    VK = 16;
+    YAHOO = 17; 
+    OTHER = 18;
+  }
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ShareList {
+  repeated Share share = 1;
+}
+
+// request
+message ShareIdRequest {
+  int64 id = 1;
+}
+
+message ShareIdListRequest {
+  repeated int64 id = 1;
+}
+
+message ShareUserIdRequest {
+  int64 user_id = 1;
+}
+
+message ShareContentIdRequest {
+  int64 content_id = 1;
+}
+
+// response
+message ShareBoolResponse {
+  bool error = 1;
+}

@@ -18,10 +18,17 @@ build:
 wire:
 	wire ./infra/di/wire.go
 
+.PHONY: run-front
+run-front:
+	sh ./scripts/run-front.sh
+
 .PHONY: run-go
 run-go:
-	cd server-go
-	air -c .conf/.air.toml
+	sh ./scripts/run-go.sh 
+
+.PHONY: run-py
+run-py:
+	sh ./scripts/run-py.sh
 
 .PHONY: up
 up:

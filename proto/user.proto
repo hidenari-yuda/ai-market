@@ -11,6 +11,7 @@ import "chat.proto";
 import "following.proto";
 import "point.proto";
 import "point_history.proto";
+import "view.proto";
 
 // Specify the directory where the code is automatically generated
 // option go_package = "./";
@@ -92,6 +93,7 @@ message User {
   repeated following.Following following = 16;
   repeated following.Following follower = 17;
   repeated like.Like like = 18;
+  repeated view.View view = 19;
 }
 
 message UserMedia {

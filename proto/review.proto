@@ -32,7 +32,7 @@ service ReviewService {
   rpc GetListByUser (ReviewUserIdRequest) returns (ReviewList) {}
 
   // get by content
-  rpc GetListByItem (ReviewItemIdRequest) returns (ReviewList) {}
+  rpc GetListByContent (ReviewContentIdRequest) returns (ReviewList) {}
 
   // get list by id list
   rpc GetListByIdList (ReviewIdListRequest) returns (ReviewList) {}
@@ -75,7 +75,7 @@ message ReviewUserIdRequest {
   int64 user_id = 1;
 }
 
-message ReviewItemIdRequest {
+message ReviewContentIdRequest {
   int64 content_id = 1;
 }
 

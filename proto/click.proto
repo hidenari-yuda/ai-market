@@ -8,37 +8,37 @@ import "google/protobuf/empty.proto";
 option go_package = "../server-go/pb";
 
 // Specify package name to avoid name collision
-package view;
+package click;
 
 // Method definition
-service ViewService {
+service ClickService {
   // create 
-  rpc Create (View) returns (View) {}
+  rpc Create (Click) returns (Click) {}
 
   // update 
-  rpc Update (View) returns (ViewBoolResponse) {}
+  rpc Update (Click) returns (ClickBoolResponse) {}
 
   // delete
-  rpc Delete (ViewIdRequest) returns (ViewBoolResponse) {}
+  rpc Delete (ClickIdRequest) returns (ClickBoolResponse) {}
 
   // get by id
-  rpc GetById (ViewIdRequest) returns (View) {}
+  rpc GetById (ClickIdRequest) returns (Click) {}
 
   // get by user
-  rpc GetListByUser (ViewUserIdRequest) returns (ViewList) {}
+  rpc GetListByUser (ClickUserIdRequest) returns (ClickList) {}
 
   // get by content
-  rpc GetListByContent (ViewContentIdRequest) returns (ViewList) {}
+  rpc GetListByContent (ClickContentIdRequest) returns (ClickList) {}
 
   // get list by id list
-  rpc GetListByIdList (ViewIdListRequest) returns (ViewList) {}
+  rpc GetListByIdList (ClickIdListRequest) returns (ClickList) {}
 
   // get all
-  rpc GetAll (google.protobuf.Empty) returns (ViewList) {}
+  rpc GetAll (google.protobuf.Empty) returns (ClickList) {}
 }
 
 // ユーザー情報を表すメッセージ型
-message View {
+message Click {
   int64 id = 1;
   string uuid = 2;
   int64 content_id = 3;
@@ -47,28 +47,28 @@ message View {
   string updated_at = 6;
 }
 
-message ViewList {
-  repeated View view = 1;
+message ClickList {
+  repeated Click click = 1;
 }
 
 // request
-message ViewIdRequest {
+message ClickIdRequest {
   int64 id = 1;
 }
 
-message ViewIdListRequest {
+message ClickIdListRequest {
   repeated int64 id = 1;
 }
 
-message ViewUserIdRequest {
+message ClickUserIdRequest {
   int64 user_id = 1;
 }
 
-message ViewContentIdRequest {
+message ClickContentIdRequest {
   int64 content_id = 1;
 }
 
 // response
-message ViewBoolResponse {
+message ClickBoolResponse {
   bool error = 1;
 }

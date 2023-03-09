@@ -59,6 +59,8 @@ service UserService {
   // auth
   // SignIn 
   rpc SignIn (SignInRequest) returns (User) {}
+
+  rpc SignInWithGoogle (User) returns (User) {}
 }
 
 // ユーザー情報を表すメッセージ型

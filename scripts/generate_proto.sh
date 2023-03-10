@@ -4,6 +4,8 @@
 if [[ $1 = all ]]; then
 		echo "Generating all server files PWD: $PWD"
 
+		rm -rf ./server-go/pb
+
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./pb/ -l go
 
 		docker stop $(docker ps -l -q)
@@ -11,6 +13,8 @@ if [[ $1 = all ]]; then
 		echo "removing" $(docker ps -l -q)
 
 		docker rm $(docker ps -l -q)
+
+		rm -rf ./front-user/pb
 
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./front-user/src/pb/ -l web
 
@@ -28,6 +32,15 @@ if [[ $1 = all ]]; then
 
 		# docker rm $(docker ps -l -q)
 
+		# not supported yet
+		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-rust/pb/ -l rust
+
+		# docker stop $(docker ps -l -q)
+
+		# echo "removing" $(docker ps -l -q)
+
+		# docker rm $(docker ps -l -q)
+
 elif [[ $1 = go ]]; then
 
 	echo "Generating go server files proto: $2"
@@ -38,6 +51,8 @@ elif [[ $1 = go ]]; then
 		# -f: 対象のprotoファイルを指定
 		# -o: アウトプットフォルダを指定
 		# -l: 生成する言語を指定
+
+		rm -rf ./server-go/pb
 
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./pb -l go
 
@@ -67,6 +82,9 @@ elif [[ $1 = js ]]; then
 	echo "Generating js server files proto: $2"
 
 	if [[ -z $2 ]]; then
+
+		rm -rf ./front-user/pb
+
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./front-user/src/pb/ -l web
 		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./front-user/src/pb/ -l typescript
 		# docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-js/pb -l js
@@ -93,6 +111,8 @@ elif [[ $1 = py ]]; then
 	echo "Generating python server files"
 
 	if [[ -z $2 ]]; then
+		rm -rf ./server-py/pb
+
 		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-python/pb -l py
 
 		docker stop $(docker ps -l -q)
@@ -109,6 +129,33 @@ elif [[ $1 = py ]]; then
 
 		echo "success lang: $1 proto: $2"
 		exit 0
+
+	fi
+
+		# not supported yet
+elif [[ $1 = rust ]]; then
+
+	echo "Generating rust server files"
+
+	if [[ -z $2 ]]; then
+		rm -rf ./server-rust/pb
+
+		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./server-rust/pb -l rust
+
+		docker stop $(docker ps -l -q)
+
+		echo "removing" $(docker ps -l -q)
+
+		docker rm $(docker ps -l -q)
+
+		echo "success lang: $1 proto: all"
+		exit 0
+
+	# else
+		# protoc --proto_path=. --python_out=. $2.proto
+
+		# echo "success lang: $1 proto: $2"
+		# exit 0
 
 	fi
 

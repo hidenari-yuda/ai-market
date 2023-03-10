@@ -103,7 +103,9 @@ message Content {
   int64 order_count = 24;
   int64 purchase_count = 25;
   int64 review_count = 26;
-  Currency currency = 27;
+  int64 share_count = 27;
+  int64 asp_count = 28;
+  Currency currency = 29;
   enum Currency {
     USD = 0;
     JPY = 1;
@@ -112,9 +114,9 @@ message Content {
   }
 
   // not in db
-  int64 user_name = 28;
-  int64 user_icon = 29;
-  int64 user_description = 30;
+  int64 user_name = 30;
+  int64 user_icon = 31;
+  int64 user_description = 32;
 }
 
 message ContentDetail {

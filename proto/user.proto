@@ -94,6 +94,8 @@ message User {
   repeated following.Following follower = 17;
   repeated like.Like like = 18;
   repeated view.View view = 19;
+  string phone_number = 20;
+  string photo_url = 21;
 }
 
 message UserMedia {

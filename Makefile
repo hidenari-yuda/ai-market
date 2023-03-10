@@ -30,6 +30,10 @@ run-go:
 run-py:
 	sh ./scripts/run-py.sh
 
+.PHONY: proto
+proto:
+	sh ./scripts/generate_proto.sh ${LANG} ${FILE}
+
 .PHONY: up
 up:
 	docker-compose -f docker-compose.yml up --build -d --log-opt max-size=100m --log-opt max-file=10 my-docker-image

@@ -68,6 +68,11 @@ message LikeContentIdRequest {
   int64 content_id = 1;
 }
 
+message LikeUserIdAndContentIdRequest {
+  int64 user_id = 1;
+  int64 content_id = 2;
+}
+
 // response
 message LikeBoolResponse {
   bool error = 1;

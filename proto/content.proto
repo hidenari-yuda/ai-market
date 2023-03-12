@@ -36,9 +36,12 @@ service ContentService {
 
   // get by id
   rpc GetById (ContentIdRequest) returns (Content) {}
-
+  
   // get by uuid
   rpc GetByUuid (ContentUuidRequest) returns (Content) {}
+
+  // get by id and user_id with like
+  rpc GetByUuidAndUser (ContentUuidAndUserIdRequest) returns (Content) {}
 
   // get by user
   rpc GetListByUser (ContentUserIdRequest) returns (ContentList) {}
@@ -54,6 +57,9 @@ service ContentService {
 
   // get by recommend id=user_id
   rpc GetRecommendedListByUser(ContentUserIdRequest) returns (ContentList) {}
+
+  // get by recommend id=content_id
+  rpc GetRecommendedListByContent(ContentIdRequest) returns (ContentList) {}
 
   // get by sold id=user_id
   rpc GetSoldListByUser(ContentUserIdRequest) returns (ContentList) {}
@@ -112,11 +118,14 @@ message Content {
     EUR = 2;
     GBP = 3;
   }
+  int64 star_rate = 30;
 
   // not in db
-  int64 user_name = 30;
-  int64 user_icon = 31;
-  int64 user_description = 32;
+  int64 user_name = 31;
+  int64 user_icon = 32;
+  int64 user_description = 33;
+  bool is_liked = 34;
+  bool is_purchased = 35;
 }
 
 message ContentDetail {
@@ -125,6 +134,9 @@ message ContentDetail {
   int64 content_id = 3;
   string title = 4;
   string description = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  bool is_deleted = 8;
 }
 
 // service
@@ -222,6 +234,12 @@ message ContentIdRequest {
 
 message ContentUuidRequest {
   string uuid = 1;
+}
+
+// request
+message ContentUuidAndUserIdRequest {
+  string uuid = 1;
+  int64 user_id = 2;
 }
 
 message ContentIdListRequest {

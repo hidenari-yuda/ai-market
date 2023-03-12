@@ -96,6 +96,8 @@ message User {
   repeated view.View view = 19;
   string phone_number = 20;
   string photo_url = 21;
+  string description = 22;
+  repeated UserMedia media = 23;
 }
 
 message UserMedia {

@@ -62,12 +62,12 @@ service ContentService {
   rpc GetRecommendedListByContent(ContentIdRequest) returns (ContentList) {}
 
   // get by sold id=user_id
-  rpc GetSoldListByUser(ContentUserIdRequest) returns (ContentList) {}
+  rpc GetSoldListByUser(ContentSearchRequest) returns (ContentList) {}
 
-  rpc GetPurchasedListByUser(ContentUserIdRequest) returns (ContentList) {}
+  rpc GetPurchasedListByUser(ContentSearchRequest) returns (ContentList) {}
 
   // get by liked id=user_id
-  rpc GetLikedListByUser(ContentUserIdRequest) returns (ContentList) {}
+  rpc GetLikedListByUser(ContentSearchRequest) returns (ContentList) {}
 
   // get list by id list
   rpc GetListByIdList (ContentIdListRequest) returns (ContentList) {}
@@ -75,6 +75,13 @@ service ContentService {
   // admin
   // get all
   rpc GetAll (google.protobuf.Empty) returns (ContentList) {}
+
+  // like
+  // update like
+  rpc CreateLike (ContentIdAndUserIdRequest) returns (ContentBoolResponse) {}
+
+  // delete like
+  rpc DeleteLike (ContentIdAndUserIdRequest) returns (ContentBoolResponse) {}
 
 }
 
@@ -232,6 +239,12 @@ message ContentIdRequest {
   int64 id = 1;
 }
 
+// request
+message ContentIdAndUserIdRequest {
+  int64 id = 1;
+  int64 user_id = 2;
+}
+
 message ContentUuidRequest {
   string uuid = 1;
 }
@@ -257,45 +270,15 @@ message ContentBoolResponse {
 
 message ContentSearchRequest {
   int64 user_id = 1;
-  string free_word = 2;
-  repeated Tool tool = 3;
-  enum Tool {
-    // https://ascii.jp/elem/000/004/124/4124022/
-    Gen_1 = 0;
-    Imagen_Video = 1;
-    Make_Video = 2;
-    Versy = 3;
-    
-    // ChatGPT = 0;
-    // GPT_3 = 1;
-    // DALL_E = 2;
-    // Stable_Diffusion = 3;
-    // Midjourney = 4;
+  string keyword = 2;
+  repeated ContentTool.Tool tool = 3;
+  repeated ContentCategory.Category category = 4;
+  repeated ContentSubCategory.SubCategory sub_category = 5;
+  SortBy sort_by = 6;
+  enum SortBy {
+    NEWEST = 0;
+    HOTTEST = 1;
+    TOP = 2;
+    RECCOMEND = 3;
   }
-  repeated Category category = 4;
-    enum Category {
-    YOUTUBE = 0;
-    TWITTER = 1;
-    INSTAGRAM = 2;
-    FACEBOOK = 3;
-    LINKEDIN = 4;
-    TIKTOK = 5;
-    PINTEREST = 6;
-    REDDIT = 7;
-    SNAPCHAT = 8;
-    TUMBLR = 9;
-    TWITCH = 10;
-    WEIBO = 11;
-    WECHAT = 12;
-    WHATSAPP = 13;
-    LINE = 14;
-    TELEGRAM = 15;
-    VK = 16;
-    YAHOO = 17; 
-    OTHER = 18;
-  };
-  repeated SubCategory sub_category = 5;
-    enum SubCategory {  
-    YOUTUBE_P = 0;
-  };
 }

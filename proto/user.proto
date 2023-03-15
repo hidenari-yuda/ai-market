@@ -133,14 +133,7 @@ message UserIdListRequest {
 }
 
 message UserTypeRequest {
-  Type type = 1;
-  enum Type {
-    NONE = 0;
-    NORMAL = 1;
-    ADMIN = 2;
-    GUEST = 3;
-    DISABLED = 4;
-  }
+  User.Type type = 1;
 }
 
 message UserSearchRequest {

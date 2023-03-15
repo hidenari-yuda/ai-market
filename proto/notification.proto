@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package notification;
+
+// Method definition
+service NotificationService {
+  // create 
+  rpc Create (Notification) returns (Notification) {}
+
+  // update 
+  rpc Update (Notification) returns (NotificationBoolResponse) {}
+
+  // update is_read when user read notification
+  rpc UpdateIsRead (NotificationUuidRequest) returns (NotificationBoolResponse) {}
+
+  // delete
+  rpc Delete (NotificationIdRequest) returns (NotificationBoolResponse) {}
+
+  // get by id
+  rpc GetById (NotificationIdRequest) returns (Notification) {}
+
+  // get by uuid
+  rpc GetByUuid (NotificationUuidRequest) returns (Notification) {}
+  
+  // get by receive user
+  rpc GetListByReceiveUser (NotificationUserIdRequest) returns (NotificationList) {}
+
+  // get unread list by receive user
+  rpc GetUnReadListByReceiveUser (NotificationUserIdRequest) returns (NotificationList) {}
+
+  // get by send user
+  rpc GetListBySendUser (NotificationUserIdRequest) returns (NotificationList) {}
+
+  // get list by id list
+  rpc GetListByIdList (NotificationIdListRequest) returns (NotificationList) {}
+
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (NotificationList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message Notification {
+  int64 id = 1;
+  string uuid = 2;
+  int64 send_user_id = 3;
+  int64 receive_user_id = 4;
+  Type type = 5;
+  enum Type {
+    LIKE = 0;
+    COMMENT = 1;
+  }
+  string topic = 6;
+  string content = 7;
+  bool is_read = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message NotificationList {
+  repeated Notification notification = 1;
+}
+
+// request
+message NotificationIdRequest {
+  int64 id = 1;
+}
+
+message NotificationIdListRequest {
+  repeated int64 id = 1;
+}
+
+message NotificationUserIdRequest {
+  int64 user_id = 1;
+}
+
+message NotificationContentIdRequest {
+  int64 content_id = 1;
+}
+
+message NotificationUuidRequest {
+  string uuid = 1;
+}
+
+message NotificationUserIdAndContentIdRequest {
+  int64 user_id = 1;
+  int64 content_id = 2;
+}
+
+// response
+message NotificationBoolResponse {
+  bool error = 1;
+}

@@ -44,57 +44,57 @@ services:
     #     - .:/app
 
     # server container
-    # server:
-    #     build:
-    #       context: .
-    #       target: dev
-    #       dockerfile: ./server/Dockerfile.local
-    #     tty: true
-    #     expose:
-    #         - 8080
-    #     ports:
-    #       - 8080:8080
-    #     environment:
+    server:
+        build:
+          context: .
+          target: dev
+          dockerfile: ./server/Dockerfile.local
+        tty: true
+        expose:
+            - 8080
+        ports:
+          - 8080:8080
+        environment:
 
-    #       # PROJECT_ID: foo
-    #       # FIRESTORE_EMULATOR_HOST: host.docker.internal:8000
-    #     # command: ["air", "-c", ".air.toml"]
-    #     networks:
-    #       - ai-market-network
-    #     env_file:
-    #        - .env
-    #     volumes:
-    #       - ./server-go:/go/src/app
+          # PROJECT_ID: foo
+          # FIRESTORE_EMULATOR_HOST: host.docker.internal:8000
+        # command: ["air", "-c", ".air.toml"]
+        networks:
+          - ai-market-network
+        env_file:
+           - .env
+        volumes:
+          - ./server-go:/go/src/app
 
     # batch container
-    #   butler:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.local
-    # networks:
-    #   - ai-market-network
-    # volumes:
-    #   - .:/go/src/app
-    # env_file:
-    #   - .env
-    # environment:
-    #   APP_SERVICE: batch
-    #   APP_BATCH_TYPE: butler
-    #   DB_HOST: db
-    # depends_on:
-    #   - db
-    # command: go run ./cmd/main.go
+    butler:
+      build:
+        context: .
+        dockerfile: Dockerfile.local
+      networks:
+        - ai-market-network
+      volumes:
+        - .:/go/src/app
+      env_file:
+        - .env
+      environment:
+        APP_SERVICE: batch
+        APP_BATCH_TYPE: butler
+        DB_HOST: db
+      depends_on:
+        - db
+      command: go run ./cmd/main.go
 
     # client container
-    # client:
-    #     container_name: ai_market_local_client
-    #     build:
-    #       context: .
-    #       dockerfile: ./Dockerfile.client
-    #     expose:
-    #         - 3000
-    #     ports:
-    #       - 3000:3000    
-    #     command: ["yarn", "start"]
-    #     networks:
-    #       - ai-market-network
+    client:
+        container_name: ai_market_local_client
+        build:
+          context: .
+          dockerfile: ./Dockerfile.client
+        expose:
+            - 3000
+        ports:
+          - 3000:3000    
+        command: ["yarn", "start"]
+        networks:
+          - ai-market-network

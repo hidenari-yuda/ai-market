@@ -6,7 +6,7 @@ if [[ $1 = all ]]; then
 
 		rm -rf ./server-go/pb
 
-		docker run -v $PWD:/defs namely/protoc-all -d proto/ -o ./pb/ -l go
+		docker run -d -v $PWD:/defs namely/protoc-all -d proto/ -o ./pb/ -l go
 
 		docker stop $(docker ps -l -q)
 

@@ -1,53 +1,159 @@
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
-kind: Deployment
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: nginx-deployment
-spec:
-  selector:
-    matchLabels:
-      app: nginx
-  replicas: 2 # tells deployment to run 2 pods matching the template
-  template:
-    metadata:
-      labels:
-        app: server-go
-    spec:
-      containers:
-      - name: server-go
-        image: server-go-latest:8080
-        ports:
-        - containerPort: 8080
-        env:
-        - name: PORT
-          value: "8080"
-        - name: GRPC_GO_LOG_SEVERITY_LEVEL
-          value: "info"
-        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
-          value: "2"
-      - name: envoy
-        image: envoyproxy/envoy:v1.17.0
-        ports:
-        - containerPort: 9901
-        - containerPort: 9090
-        args:
-        - --config-path
-        - /etc/envoy/envoy.yaml
-        volumeMounts:
-        - name: envoy-config
-          mountPath: /etc/envoy
-      # volumes:
-      # - name: envoy-config
-      #   configMap:
-      #     name: envoy-config
+  name: ai-market
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-market-config
+  namespace: ai-market
+data:
+  MYSQL_DATABASE: ai_market_local
+  MYSQL_ROOT_PASSWORD: password
+
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: server-go
+  name: ai-market-local-db
+  namespace: ai-market
 spec:
   selector:
-    app: server-go
+    app: ai-market-local-db
   ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 8080
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-market-local-db
+  namespace: ai-market
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-market-local-db
+  template:
+    metadata:
+      labels:
+        app: ai-market-local-db
+    spec:
+      containers:
+      - name: ai-market-local-db
+        image: mysql:8.0.30
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-conf
+          mountPath: /etc/mysql/conf.d
+        envFrom:
+        - configMapRef:
+            name: ai-market-config
+      volumes:
+      - name: mysql-conf
+        hostPath:
+          path: ./server-go/conf/conf.d
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-market-local-envoy
+  namespace: ai-market
+spec:
+  selector:
+    app: ai-market-local-envoy
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+    - protocol: TCP
+      port: 9901
+      targetPort: 9901
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-market-local-envoy
+  namespace: ai-market
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-market-local-envoy
+  template:
+    metadata:
+      labels:
+        app: ai-market-local-envoy
+    spec:
+      containers:
+      - name: ai-market-local-envoy
+        image: ai-market-local-envoy-image
+        ports:
+        - containerPort: 9090
+        - containerPort: 9901
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-market-local-server
+  namespace: ai-market
+spec:
+  selector:
+    app: ai-market-local-server
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-market-local-server
+  namespace: ai-market
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-market-local-server
+  template:
+    metadata:
+      labels:
+        app: ai-market-local-server
+    spec:
+      containers:
+      - name: ai-market-local-server
+        image: ai-market-local-server-image
+        ports:
+        - containerPort: 8080
+        tty: true
+        volumeMounts:
+        - name: server-go
+          mountPath: /go/src/app
+      volumes:
+      - name: server-go
+        hostPath:
+          path: ./server-go
+
+---
+
+apiVersion: v1
+kind: Service

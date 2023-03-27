@@ -108,45 +108,91 @@ message Content {
   repeated ContentTool tools = 17;
   repeated ContentCategory categories = 18;
   repeated ContentSubCategory sub_categories = 19;
+  repeated ContentPreview previews = 20;
 
   // repeated like.Like like = 20;
 
   // not in db
-  int64 like_count = 20;
-  int64 impression_count = 21;
-  int64 view_count = 22;
-  int64 click_count = 23;
-  int64 order_count = 24;
-  int64 purchase_count = 25;
-  int64 review_count = 26;
-  int64 share_count = 27;
-  int64 asp_count = 28;
-  Currency currency = 29;
+  int64 like_count = 21;
+  int64 impression_count = 22;
+  int64 view_count = 23;
+  int64 click_count = 24;
+  int64 order_count = 25;
+  int64 purchase_count = 26;
+  int64 review_count = 27;
+  int64 share_count = 28;
+  int64 asp_count = 29;
+  Currency currency = 30;
   enum Currency {
     USD = 0;
     JPY = 1;
     EUR = 2;
     GBP = 3;
   }
-  int64 star_rate = 30;
+  int64 star_rate = 31;
 
   // not in db
-  int64 user_name = 31;
-  int64 user_icon = 32;
-  int64 user_description = 33;
-  bool is_liked = 34;
-  bool is_purchased = 35;
+  int64 user_name = 32;
+  int64 user_icon = 33;
+  int64 user_description = 34;
+  bool is_liked = 35;
+  bool is_purchased = 36;
+}
+
+message ContentPreview {
+  int64 id = 1;
+  string uuid = 2;
+  int64 content_id = 3;
+  string preview_input = 4;
+  string preview_output = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
 message ContentDetail {
   int64 id = 1;
   string uuid = 2;
   int64 content_id = 3;
-  string title = 4;
-  string description = 5;
-  string created_at = 6;
-  string updated_at = 7;
-  bool is_deleted = 8;
+  string prompt = 6;
+  string testing_prompt = 7;
+  int64 engine = 9; // 1: gpt-3.5-turbo, 2: gpt-4
+  string prompt_instruction = 10;
+  string url = 11;
+  string created_at = 12;
+  string updated_at = 13;
+  bool is_deleted = 14;
+
+  // stable diffusion
+  StableDiffusionModel stable_diffusion_model = 100; // 1: v.1.4, 2: v.1.5, 3: v.2.0, 4: v.2.0.768, 5: v.2.1, 6: v.2.1.768
+  enum StableDiffusionModel {
+    V_1_4 = 0;
+    V_1_5 = 1;
+    V_2_0 = 2;
+    V_2_0_768 = 3;
+    V_2_1 = 4;
+    V_2_1_768 = 5;
+  }
+  StableDiffusionSampler stable_diffusion_sampler = 101; // 1: ddim, 2: plms, 3: k_euler, 4: k_enler_ancestral, 5: k_heun, 
+  enum StableDiffusionSampler {
+    Ddim = 0;
+    Plms = 1;
+    K_euler = 2;
+    K_enler_ancestral = 3;
+    K_heun = 4;
+    K_dpm2 = 5;
+    K_dpm2_ancestral = 6;
+    K_lms = 7;
+    K_dpmpp_2s_ancestral = 8;
+    K_dpmpp_2m = 9;
+  }
+  int64 image_width = 102;
+  int64 image_height = 103;
+  int64 cfg_scale = 104;
+  int64 steps = 105;
+  string seed = 106;
+  bool clip_guidance = 107;
+  string nagative_prompt = 108;
+
 }
 
 // service
@@ -157,16 +203,12 @@ message ContentTool {
   Tool tool = 5;
   enum Tool {
     // https://ascii.jp/elem/000/004/124/4124022/
-    Gen_1 = 0;
-    Imagen_Video = 1;
-    Make_Video = 2;
-    Versy = 3;
-    
-    // ChatGPT = 0;
-    // GPT_3 = 1;
-    // DALL_E = 2;
-    // Stable_Diffusion = 3;
-    // Midjourney = 4;
+    TOOL_UNKNOWN = 0;
+    ChatGPT = 1;
+    GPT_3 = 2;
+    DALL_E = 3;
+    Stable_Diffusion = 4;
+    Midjourney = 5;
   }
   string created_at = 6;
   string updated_at = 7;

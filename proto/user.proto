@@ -12,6 +12,7 @@ import "following.proto";
 import "point.proto";
 import "point_history.proto";
 import "view.proto";
+import "notification_setting.proto";
 
 // Specify the directory where the code is automatically generated
 // option go_package = "./";
@@ -98,6 +99,7 @@ message User {
   string photo_url = 21;
   string description = 22;
   repeated UserMedia media = 23;
+  notification_setting.NotificationSetting notification_setting = 24;
 }
 
 message UserMedia {

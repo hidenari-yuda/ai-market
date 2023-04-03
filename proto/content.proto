@@ -193,6 +193,9 @@ message ContentDetail {
   bool clip_guidance = 107;
   string nagative_prompt = 108;
 
+  string title = 109;
+  string description = 110;
+
 }
 
 // service

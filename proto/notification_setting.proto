@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+// Use convenience types defined and published as a package by Google
+import "google/protobuf/empty.proto";
+
+// Specify the directory where the code is automatically generated
+// option go_package = "./";
+option go_package = "../server-go/pb";
+
+// Specify package name to avoid name collision
+package notification_setting;
+
+// Method definition
+service NotificationSettingService {
+  // create 
+  rpc Create (NotificationSetting) returns (NotificationSetting) {}
+
+  // update 
+  rpc Update (NotificationSetting) returns (NotificationSettingBoolResponse) {}
+
+  // delete
+  rpc Delete (NotificationSettingIdRequest) returns (NotificationSettingBoolResponse) {}
+
+  // get by id
+  rpc GetById (NotificationSettingIdRequest) returns (NotificationSetting) {}
+
+  // get by uuid
+  rpc GetByUuid (NotificationSettingUuidRequest) returns (NotificationSetting) {}
+  
+  // get by receive user
+  rpc GetByUser (NotificationSettingUserIdRequest) returns (NotificationSetting) {}
+
+  // get list by id list
+  rpc GetListByIdList (NotificationSettingIdListRequest) returns (NotificationSettingList) {}
+
+  // get all
+  rpc GetAll (google.protobuf.Empty) returns (NotificationSettingList) {}
+}
+
+// ユーザー情報を表すメッセージ型
+message NotificationSetting {
+  int64 id = 1;
+  string uuid = 2;
+  int64 user_id = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  bool followed = 6; // フォロー通知
+  bool liked = 7; // いいね通知
+  bool commented = 8; // コメント通知
+  bool chated = 9; // チャット通知
+  bool liking_content_discounted = 10; // いいねした商品が割引通知
+  bool liking_content_commented = 11; // いいねした商品が割引通知
+  bool following_user_new = 12; // フォローしたユーザーが新規投稿通知
+
+  bool news = 13; // ニュース通知
+  bool event = 14; // イベント通知
+  bool coupon = 15; // クーポン通知
+  bool update = 16; // アップデート通知
+
+  bool email_followed = 17; // フォロー通知
+  bool email_liked = 18; // いいね通知
+  bool email_commented = 19; // コメント通知
+  bool email_chated = 20; // チャット通知
+  bool email_liking_content_discounted = 21; // いいねした商品が割引通知
+  bool email_liking_content_commented = 22; // いいねした商品が割引通知
+  bool email_following_user_new = 23; // フォローしたユーザーが新規投稿通知
+
+  bool email_news = 24; // ニュース通知
+  bool email_event = 25; // イベント通知
+  bool email_coupon = 26; // クーポン通知
+  bool email_update = 27; // アップデート通知
+}
+
+message NotificationSettingList {
+  repeated NotificationSetting notification = 1;
+}
+
+// request
+message NotificationSettingIdRequest {
+  int64 id = 1;
+}
+
+message NotificationSettingIdListRequest {
+  repeated int64 id = 1;
+}
+
+message NotificationSettingUserIdRequest {
+  int64 user_id = 1;
+}
+
+message NotificationSettingContentIdRequest {
+  int64 content_id = 1;
+}
+
+message NotificationSettingUuidRequest {
+  string uuid = 1;
+}
+
+message NotificationSettingUserIdAndContentIdRequest {
+  int64 user_id = 1;
+  int64 content_id = 2;
+}
+
+// response
+message NotificationSettingBoolResponse {
+  bool error = 1;
+}
